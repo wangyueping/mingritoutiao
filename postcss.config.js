@@ -1,23 +1,8 @@
-# 随笔记录一些问题
-
-## 一、Vue中使用vw适配移动端
-
-### 1、在项目中引入插件
-
-```js
-npm install postcss-px-to-viewport --save-dev
-npm install postcss-import --save-dev
-npm install postcss-url --save-dev
-npm install postcss-px-to-viewport-opt --save-dev
-```
-
-### 2、在目录创建一个postcss.config.js文件
-
-```js
 module.exports = {
     "plugins": {
         "postcss-import": {},
         "postcss-url": {},
+        // to edit target browsers: use "browserslist" field in package.json
         "autoprefixer": {
             path: ['./src/*']
         },
@@ -31,7 +16,12 @@ module.exports = {
             "mediaQuery": false, // 允许在媒体查询中转换`px`
             // "exclude": /(\/|\\)(node_modules)(\/|\\)/
         },
+        // postcss-pxtorem 插件的版本需要 >= 5.0.0
+        'postcss-pxtorem': {
+            rootValue({ file }) {
+                return file.indexOf('vant') !== -1 ? 37.5 : 75;
+            },
+            propList: ['*'],
+        },
     }
 }
-```
-
