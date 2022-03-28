@@ -7,7 +7,7 @@ module.exports = {
             path: ['./src/*']
         },
         "postcss-px-to-viewport-opt": {
-            "viewportWidth": "750", //视窗的宽度，对应的是我们设计稿的宽度
+            // "viewportWidth": "750", //视窗的宽度，对应的是我们设计稿的宽度
             // "viewportHeight": "1334", // 视窗的高度
             "unitPrecision": 2, //指定`px`转换为视窗单位值的小数位数(很多时候无法整除)
             "viewportUnit": "vw", //指定需要转换成的视窗单位，建议使用vw

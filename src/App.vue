@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <test></test>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -13,5 +11,6 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style lang="less" scoped>
+</style>>
+
