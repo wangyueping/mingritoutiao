@@ -1,6 +1,8 @@
 <template>
   <div class="layout-container">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
 
     <van-tabbar v-model="active">
       <van-tabbar-item :to="{ name: 'Home' }" icon="home-o"

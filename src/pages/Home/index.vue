@@ -1,17 +1,7 @@
 <template>
   <div>
     <!-- 标题导航栏 -->
-    <div class="nav-bar">
-      <van-nav-bar fixed>
-        <template #right>
-          <van-icon name="search" />
-        </template>
-        <template v-slot:left>
-          <img class="image" src="../../assets/logo.png" alt="" />
-        </template>
-      </van-nav-bar>
-    </div>
-
+    <Header />
     <!-- 频道Tab标签 -->
     <div class="tabs">
       <van-tabs
@@ -21,57 +11,51 @@
         animated
         offset-top="12.266vw"
       >
-        <van-tab title="标签 1">
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
-          <p>内容 1</p>
+        <van-tab
+          v-for="channelObj in channels"
+          :key="channelObj.id"
+          :title="channelObj.name"
+          :name="channelObj.id"
+        >
+          <ArticleContent :channelID="active" />
         </van-tab>
-        <van-tab title="标签 2">内容 2</van-tab>
-        <van-tab title="标签 3">内容 3</van-tab>
-        <van-tab title="标签 4">内容 4</van-tab>
       </van-tabs>
     </div>
   </div>
 </template>
 
 <script>
+import ArticleContent from "@/components/ArticleContent";
+import Header from "@/components/Header";
+import { userChannelsAPI } from "@/api";
+import { Notify } from "vant";
+
 export default {
   name: "Home",
   data() {
     return {
       active: 0,
+      channels: [],
     };
+  },
+  components: {
+    ArticleContent,
+    Header,
+  },
+  created() {
+    userChannelsAPI()
+      .then((response) => {
+        console.log(response.data.data.channels);
+        this.channels = response.data.data.channels;
+      })
+      .catch((err) => {
+        Notify({ type: "danger", message: "网络请求错误！" });
+      });
   },
 };
 </script>
 
 <style lang="less" scoped>
-.image {
-  width: 200px;
-  height: 92px;
-}
-.van-nav-bar .van-icon {
-  color: #fff;
-  font-size: 36px;
-}
 .tabs {
   padding-top: 92px;
 }
