@@ -21,7 +21,6 @@ export default {
 <style lang="less" scoped>
 .van-nav-bar .van-icon {
   color: #fff;
-  // font-size: 36px;
 }
 .image {
   width: 200px;

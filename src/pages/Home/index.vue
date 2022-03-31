@@ -2,14 +2,19 @@
   <div>
     <!-- 标题导航栏 -->
     <Header />
+    <div class="loading" v-if="isLoading">
+      <van-loading size="6.4vw" vertical>加载中...</van-loading>
+    </div>
+
     <!-- 频道Tab标签 -->
-    <div class="tabs">
+    <div class="tabs" v-if="!isLoading">
       <van-tabs
         ref="tabs"
         v-model="active"
         sticky
         animated
         offset-top="12.266vw"
+        :v-if="!isLoading"
       >
         <van-tab
           v-for="channelObj in channels"
@@ -17,7 +22,7 @@
           :title="channelObj.name"
           :name="channelObj.id"
         >
-          <ArticleContent :channelID="active" />
+          <ArticleContent @getStatus="judgeIsLoading" :channelID="active" />
         </van-tab>
       </van-tabs>
     </div>
@@ -36,7 +41,13 @@ export default {
     return {
       active: 0,
       channels: [],
+      isLoading: true,
     };
+  },
+  methods: {
+    judgeIsLoading(status) {
+      this.isLoading = status;
+    },
   },
   components: {
     ArticleContent,
@@ -45,17 +56,25 @@ export default {
   created() {
     userChannelsAPI()
       .then((response) => {
-        console.log(response.data.data.channels);
         this.channels = response.data.data.channels;
+        this.isLoading = false;
       })
       .catch((err) => {
         Notify({ type: "danger", message: "网络请求错误！" });
+        this.isLoading = false;
       });
   },
 };
 </script>
 
 <style lang="less" scoped>
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+
 .tabs {
   padding-top: 92px;
 }
